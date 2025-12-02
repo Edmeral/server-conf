@@ -1,0 +1,4 @@
+hetzner:
+  hosts:
+    127.0.0.1: # server ip address
+      ansible_user: root
