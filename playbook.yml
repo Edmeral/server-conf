@@ -116,3 +116,13 @@
         name: tailscaled
         state: started
         enabled: yes
+
+    - name: Install uv
+      shell: curl -LsSf https://astral.sh/uv/install.sh | sh
+      args:
+        creates: /root/.cargo/bin/uv
+
+    - name: Install latest Python with uv
+      shell: /root/.cargo/bin/uv python install --default
+      args:
+        creates: /root/.local/share/uv/python
