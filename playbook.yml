@@ -1,5 +1,6 @@
 - name: Configure server
   hosts: all
+  remote_user: aissam
   become: yes
 
   tasks:
@@ -20,9 +21,9 @@
         state: present
         update_cache: yes
 
-    - name: Set fish as default shell for root
+    - name: Set fish as default shell for aissam
       user:
-        name: root
+        name: aissam
         shell: /usr/bin/fish
 
     - name: Install mosh
@@ -77,6 +78,12 @@
         state: started
         enabled: yes
 
+    - name: Add aissam to docker group
+      user:
+        name: aissam
+        groups: docker
+        append: yes
+
     # Caddy
     - name: Add Caddy GPG key
       apt_key:
@@ -117,12 +124,14 @@
         state: started
         enabled: yes
 
-    - name: Install uv
+    - name: Install uv for aissam
       shell: curl -LsSf https://astral.sh/uv/install.sh | sh
       args:
-        creates: /root/.cargo/bin/uv
+        creates: /home/aissam/.local/bin/uv
+      become_user: aissam
 
-    - name: Install latest Python with uv
-      shell: /root/.cargo/bin/uv python install --default
+    - name: Install latest Python with uv for aissam
+      shell: /home/aissam/.local/bin/uv python install --default
       args:
-        creates: /root/.local/share/uv/python
+        creates: /home/aissam/.local/share/uv/python
+      become_user: aissam
