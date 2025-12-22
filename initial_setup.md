@@ -29,4 +29,7 @@ sudo usermod -aG docker aissam
 ### 4. Run the playbook (with uvx)
 ```bash
 uvx --from ansible-core ansible-playbook playbook.yml -i inventory.yml
+
+# To just check if everything would run without actually running it
+uvx --from ansible-core ansible-playbook playbook.yml --check -i inventory.yml 
 ```
